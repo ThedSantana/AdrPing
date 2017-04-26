@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">AdrPing</string>
+    <string name="show_dsp">ping go!</string>
+    <string name="dst_dsp">dst:</string>
+    <string name="ping_dsp">Ping</string>
+    <string name="cancel_dsp">Cancel</string>
+    <string name="start_ping">start ping...</string>
+    <string name="stop_last_ping">stop last ping</string>
+    <string name="stop_ping">stop ping</string>
+    <string name="exit_ping">exit ping</string>
+    <string name="fail_ping">ping failed</string>
+    <string name="cannot_reach">dst can not be reached</string>
+    <string name="finish_ping">finish ping</string>
+    <string name="time_out">time out</string>
+</resources>
