@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">AdrPing</string>
     <string name="show_dsp">ping go!</string>
+    <string name="ip_dsp">input ip</string>
+    <string name="ip_lastfive">last 5 records</string>
     <string name="dst_dsp">dst:</string>
     <string name="ping_dsp">Ping</string>
     <string name="cancel_dsp">Cancel</string>
-    <string name="start_ping">start ping...</string>
+    <string name="start_ping">start ping…</string>
     <string name="stop_last_ping">stop last ping</string>
     <string name="stop_ping">stop ping</string>
     <string name="exit_ping">exit ping</string>

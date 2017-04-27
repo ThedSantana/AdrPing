@@ -19,17 +19,34 @@
         app:layout_constraintRight_toRightOf="@+id/lay_root"
         app:layout_constraintTop_toTopOf="@id/lay_root"/>
 
-    <EditText
+    <!--EditText
         android:id="@+id/ipaddr_etxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:hint="127.0.0.1"
+        android:hint="@string/ip_dsp"
         android:text="127.0.0.1"
         app:layout_constraintBottom_toBottomOf="@id/show_txt"
         app:layout_constraintLeft_toLeftOf="@+id/lay_root"
         app:layout_constraintRight_toRightOf="@+id/lay_root"
+        app:layout_constraintTop_toTopOf="@id/lay_root"/-->
+
+    <AutoCompleteTextView
+        android:id="@+id/ipaddr_etxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/ip_dsp"
+        android:completionHint="@string/ip_lastfive"
+        android:textSize="20sp"
+        android:dropDownHorizontalOffset="20sp"
+        android:completionThreshold="1"
+        android:dropDownHeight="wrap_content"
+        android:dropDownWidth="fill_parent"
+        app:layout_constraintBottom_toBottomOf="@id/show_txt"
+        app:layout_constraintLeft_toLeftOf="@+id/lay_root"
+        app:layout_constraintRight_toRightOf="@+id/lay_root"
         app:layout_constraintTop_toTopOf="@id/lay_root"/>
+
     <TextView
         android:id="@+id/dst_txt"
         android:layout_width="wrap_content"

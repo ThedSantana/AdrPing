@@ -1,12 +1,14 @@
 package com.dzy.root.adrping;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static String finishPingStr;
     private static String timeOutStr;
 
-    private EditText ipaddr_etxt;
+    private AutoCompleteTextView ipaddr_etxt;
     private Button start_btn, cancel_btn;
     private TextView show_txt;
     private Toast tst;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         start_btn = (Button) findViewById(R.id.start_btn);
         cancel_btn = (Button) findViewById(R.id.cancel_btn);
-        ipaddr_etxt =(EditText)findViewById(R.id.ipaddr_etxt);
+        ipaddr_etxt = (AutoCompleteTextView) findViewById(R.id.ipaddr_etxt);
         show_txt =(TextView)findViewById(R.id.show_txt);
 
         startPingStr = getResources().getString(R.string.start_ping);
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cancel_btn.setOnClickListener(this);
         pingThread=new PingThread();
         keeperThread=new KeeperThread();
+
+        initAutoComplete("history", ipaddr_etxt);
 
     }
 
@@ -83,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 pingIsAlive =true;
                 pingThread.start();
                 keeperThread.start();
+
+                saveHistory("history", ipaddr_etxt);
                 break;
             case R.id.cancel_btn:
                 if (pingThread.isAlive())
@@ -101,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public class PingThread extends  Thread{
+    private class PingThread extends  Thread{
         private Process process;
         @Override
         public void run() {
@@ -109,8 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             boolean isRun =true;
             do{
                 String ipaddr_str=ipaddr_etxt.getText().toString();
-                String line = null;
-                BufferedReader successReader = null;
+                String line =null;
+                BufferedReader successReader =null;
                 String command = "ping " + ipaddr_str;
                 Bundle bundle = new Bundle();
 
@@ -140,6 +146,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mHandler.sendMessage(msg);
                     }
                 }catch (IOException e) {
+                    bundle.putString(pingRes, failPingStr);
+                    Message msg = new Message();
+                    msg.what = msgKey1;
+                    msg.setData(bundle);
+                    mHandler.sendMessage(msg);
                 }
                 isRun =false;
             }while (isRun);
@@ -185,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tst.show();
     }
 
-    public class KeeperThread extends  Thread {
+    private class KeeperThread extends  Thread {
         @Override
         public void run() {
             super.run();
@@ -209,6 +220,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+    }
+    private void saveHistory(String field,
+                             AutoCompleteTextView autoCompleteTextView) {
+        String text = autoCompleteTextView.getText().toString();
+        SharedPreferences sp = getSharedPreferences("network_url", 0);
+        String longhistory = sp.getString(field, "www.baidu.com");
+        if (!longhistory.contains(text + ",")) {
+            StringBuilder sb = new StringBuilder(longhistory);
+            sb.insert(0, text + ",");
+            sp.edit().putString("history", sb.toString()).apply();
+        }
+    }
+    private void initAutoComplete(String field,
+                                  AutoCompleteTextView autoCompleteTextView) {
+        SharedPreferences sp = getSharedPreferences("network_url", 0);
+        String longhistory = sp.getString("history", "www.baidu.com");
+        String[] histories = longhistory.split(",");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, histories);
+        // 只保留最近的50条的记录
+        if (histories.length > 50) {
+            String[] newHistories = new String[50];
+            System.arraycopy(histories, 0, newHistories, 0, 50);
+            adapter = new ArrayAdapter<>(this,
+                    android.R.layout.simple_dropdown_item_1line, newHistories);
+        }
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView
+                .setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        AutoCompleteTextView view = (AutoCompleteTextView) v;
+                        if (hasFocus) {
+                            view.showDropDown();
+                        }
+                    }
+                });
     }
 
 }
