@@ -14,34 +14,34 @@
         android:text="@string/show_dsp"
         android:ellipsize="middle"
         android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@id/lay_root"
         app:layout_constraintLeft_toLeftOf="@+id/lay_root"
         app:layout_constraintRight_toRightOf="@+id/lay_root"
-        app:layout_constraintTop_toTopOf="@id/lay_root"/>
+        app:layout_constraintTop_toTopOf="@id/lay_root"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"/>
 
-    <!--EditText
-        android:id="@+id/ipaddr_etxt"
+    <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:hint="@string/ip_dsp"
-        android:text="127.0.0.1"
-        app:layout_constraintBottom_toBottomOf="@id/show_txt"
-        app:layout_constraintLeft_toLeftOf="@+id/lay_root"
-        app:layout_constraintRight_toRightOf="@+id/lay_root"
-        app:layout_constraintTop_toTopOf="@id/lay_root"/-->
+        android:id="@+id/guideline"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
 
     <AutoCompleteTextView
         android:id="@+id/ipaddr_etxt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/ip_dsp"
         android:completionHint="@string/ip_lastfive"
         android:textSize="20sp"
+        android:maxLines="1"
         android:dropDownHorizontalOffset="20sp"
         android:completionThreshold="1"
         android:dropDownHeight="wrap_content"
-        android:dropDownWidth="fill_parent"
+        android:dropDownWidth="match_parent"
         app:layout_constraintBottom_toBottomOf="@id/show_txt"
         app:layout_constraintLeft_toLeftOf="@+id/lay_root"
         app:layout_constraintRight_toRightOf="@+id/lay_root"
@@ -49,15 +49,18 @@
 
     <TextView
         android:id="@+id/dst_txt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dst_dsp"
         android:ellipsize="middle"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/show_txt"
+        android:layout_marginTop="50sp"
+        app:layout_constraintBottom_toTopOf="@id/ipaddr_etxt"
         app:layout_constraintLeft_toLeftOf="@+id/lay_root"
-        app:layout_constraintRight_toLeftOf="@+id/ipaddr_etxt"
+        app:layout_constraintRight_toRightOf="@+id/lay_root"
         app:layout_constraintTop_toTopOf="@id/lay_root"/>
+
+
 
     <Button
         android:id="@+id/start_btn"
@@ -67,7 +70,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/lay_root"
         app:layout_constraintLeft_toLeftOf="@id/lay_root"
-        app:layout_constraintRight_toRightOf="@id/ipaddr_etxt"
+        app:layout_constraintRight_toRightOf="@id/guideline"
         app:layout_constraintTop_toTopOf="@id/show_txt"  />
 
     <Button
@@ -77,7 +80,7 @@
         android:text="@string/cancel_dsp"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/lay_root"
-        app:layout_constraintLeft_toLeftOf="@id/ipaddr_etxt"
+        app:layout_constraintLeft_toLeftOf="@id/guideline"
         app:layout_constraintRight_toRightOf="@id/lay_root"
         app:layout_constraintTop_toTopOf="@id/show_txt" />
 
